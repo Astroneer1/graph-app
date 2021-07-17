@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  get_resource_timestamps: 
+  r: 1
+  b: 1
+  swpd: 1
+  free: 1
+  buff: 1
+  cache: 1
+  si: 1
+  so: 1
+  bi: 1
+  bo: 1
+  in: 1
+  cs: 1
+  us: 1
+  sy: 1
+  idle: 1
+  wa: 1
+  st: 1
+  server: one
+
+two:
+  get_resource_timestamps: 
+  r: 1
+  b: 1
+  swpd: 1
+  free: 1
+  buff: 1
+  cache: 1
+  si: 1
+  so: 1
+  bi: 1
+  bo: 1
+  in: 1
+  cs: 1
+  us: 1
+  sy: 1
+  idle: 1
+  wa: 1
+  st: 1
+  server: two

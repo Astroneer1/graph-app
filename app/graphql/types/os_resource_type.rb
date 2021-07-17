@@ -1,7 +1,7 @@
 module Types
   class OSResourceType < Types::BaseObject
     field :id, ID, null: false
-    field :get_resource_timestamps, Types::TimestampsType, null: true
+    field :get_resource_timestamps, Types::DateTimeType, null: true
     field :r, Integer, null: true
     field :b, Integer, null: true
     field :swpd, Integer, null: true

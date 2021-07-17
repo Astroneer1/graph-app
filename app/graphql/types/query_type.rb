@@ -9,6 +9,8 @@ module Types
 
     # TODO: remove me
     field :test_field, String, null: false,
+
+    field :os_resource, resolver: Resolvers::OsResource
       description: "An example field added by the generator"
     def test_field
       "Hello World!"

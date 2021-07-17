@@ -1,6 +1,6 @@
-module Resource
-    class Resources < GraphQL::Schema::Resolver
-        type[Resources::ResourceType], null: false
+module OsResource
+    class OsResources < GraphQL::Schema::Resolver
+        type[Resources::OsResourceType], null: false
 
         def resolve
             OsResource.all

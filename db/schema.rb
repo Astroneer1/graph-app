@@ -10,41 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210717135328) do
+ActiveRecord::Schema.define(version: 20210717161019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "os_resources", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
+    t.string   "email",      null: false
+    t.string   "password",   null: false
+    t.string   "username",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "r"
-    t.integer  "b"
-    t.integer  "swpd"
-    t.integer  "free"
-    t.integer  "buff"
-    t.integer  "cache"
-    t.integer  "si"
-    t.integer  "so"
-    t.integer  "bi"
-    t.integer  "bo"
-    t.integer  "in"
-    t.integer  "cs"
-    t.integer  "us"
-    t.integer  "sy"
-    t.integer  "idle"
-    t.integer  "wa"
-    t.integer  "st"
-    t.integer  "server_id"
-    t.index ["server_id"], name: "index_os_resources_on_server_id", using: :btree
   end
 
-  create_table "servers", force: :cascade do |t|
-    t.string   "server_ip"
-    t.string   "server_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_foreign_key "os_resources", "servers"
 end

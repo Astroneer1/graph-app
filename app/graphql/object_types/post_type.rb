@@ -1,7 +1,7 @@
 module ObjectTypes
-  class FollowingType < BaseObject
+  class PostType < BaseObject
     global_id_field :id
     field :user_id, Integer, null: false
-    field :following_user_id, String, null: false
+    field :message, String, null: false
   end
 end

@@ -1,3 +1,3 @@
 class Post < ApplicationRecord
-  validates :user_id, :message, presence: true
+  validates :users_id, :message, presence: true
 end

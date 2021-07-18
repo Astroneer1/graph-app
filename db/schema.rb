@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 20_210_718_083_644) do
     t.index ['users_id'], name: 'index_followings_on_users_id', using: :btree
   end
 
+  create_table 'posts', force: :cascade do |t|
+    t.integer  'users_id'
+    t.string   'message',    null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['users_id'], name: 'index_posts_on_users_id', using: :btree
+  end
+
   create_table 'users', force: :cascade do |t|
     t.string   'email',      null: false
     t.string   'password',   null: false
@@ -31,4 +39,5 @@ ActiveRecord::Schema.define(version: 20_210_718_083_644) do
   end
 
   add_foreign_key 'followings', 'users', column: 'users_id'
+  add_foreign_key 'posts', 'users', column: 'users_id'
 end

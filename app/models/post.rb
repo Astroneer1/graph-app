@@ -1,3 +1,4 @@
 class Post < ApplicationRecord
-  validates :users_id, :message, presence: true
+  include RelayIdentifiable
+  validates :user_id, :message, presence: true
 end

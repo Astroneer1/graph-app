@@ -1,17 +1,15 @@
 module Mutations
-    class SignUp < BaseMutation
+    class SignIn < BaseMutation
       argument :email, String, required: true
       argument :password, String, required: true
   
-      field :user, ObjectTypes::UserType, null: false
       field :api_token ObjectTypes::ApiTokenType, null: false
 
       def resolve(email:, password:)
         user = User.where(email: email, password: password)
-        #SecureRandom.alphanumeric
+        #api_token = SecureRandom.alphanumeric
         
-        { user: user }
+        { api_token:  api_token}
       end
     end
   end
-  

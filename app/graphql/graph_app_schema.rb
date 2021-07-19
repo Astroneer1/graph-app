@@ -2,30 +2,23 @@ class GraphAppSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-  # Union and Interface Resolution
-  def self.resolve_type(_abstract_type, _obj, _ctx)
-    # TODO: Implement this function
-    # to return the correct object type for `obj`
-    raise(GraphQL::RequiredImplementationMissingError)
-  end
+  class << self
+    def id_from_object(object, _type_definition = nil, _query_ctx = nil)
+      return nil unless object
 
-  # Relay-style Object Identification:
+      GraphQL::Schema::UniqueWithinType.encode(object.class.name, object.id).delete('=')
+    end
 
-  # Return a string UUID for `object`
-  def self.id_from_object(object, type_definition, query_ctx)
-    # Here's a simple implementation which:
-    # - joins the type name & object.id
-    # - encodes it with base64:
-    # GraphQL::Schema::UniqueWithinType.encode(type_definition.name, object.id)
-  end
+    def object_from_id(id, _query_ctx = nil)
+      type_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id + '=' * (-1 * id.size & 3))
+      model = Object.const_get(type_name)
+      model.find(item_id)
+    rescue NameError
+      raise GraphqlError::InvalidId, id: id
+    end
 
-  # Given a string UUID, find the object
-  def self.object_from_id(id, query_ctx)
-    # For example, to decode the UUIDs generated above:
-    # type_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id)
-    #
-    # Then, based on `type_name` and `id`
-    # find an object in your application
-    # ...
+    def resolve_type(_type, object, _ctx)
+      Object.const_get("ObjectTypes::#{object.class.name}Type")
+    end
   end
 end

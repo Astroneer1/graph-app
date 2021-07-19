@@ -1,11 +1,11 @@
 module Resolvers
   class Followings < Resolvers::BaseResolver
+    argument :user_id, ID, loads: ObjectTypes::UserType, required: true
+
     type [ObjectTypes::FollowingType], null: false
 
-    argument :users_id, Integer, required: true
-
-    def resolve(users_id:)
-      Following.where(users_id: users_id)
+    def resolve(user:)
+      Following.where(user_id: user.id)
     end
   end
 end

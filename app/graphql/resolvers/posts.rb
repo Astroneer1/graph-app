@@ -1,11 +1,11 @@
 module Resolvers
   class Posts < Resolvers::BaseResolver
-    argument :users_id, Integer, required: true
+    argument :user_id, ID, loads: ObjectTypes::UserType, required: true
 
     type [ObjectTypes::PostType], null: false
 
-    def resolve(users_id:)
-      Post.where(users_id: users_id)
+    def resolve(user:)
+      Post.where(user_id: user.id)
     end
   end
 end

@@ -14,12 +14,12 @@ ActiveRecord::Schema.define(version: 20_210_719_144_054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
-  create_table 'api_token', force: :cascade do |t|
+  create_table 'api_tokens', force: :cascade do |t|
     t.integer  'user_id'
     t.string   'token',      null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['user_id'], name: 'index_api_token_on_user_id', using: :btree
+    t.index ['user_id'], name: 'index_api_tokens_on_user_id', using: :btree
   end
 
   create_table 'followings', force: :cascade do |t|
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20_210_719_144_054) do
     t.datetime 'updated_at', null: false
   end
 
-  add_foreign_key 'api_token', 'users'
+  add_foreign_key 'api_tokens', 'users'
   add_foreign_key 'followings', 'users'
   add_foreign_key 'followings', 'users', column: 'following_user_id'
   add_foreign_key 'posts', 'users'

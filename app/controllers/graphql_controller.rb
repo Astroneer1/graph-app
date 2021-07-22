@@ -4,14 +4,23 @@ class GraphqlController < ApplicationController
   # but you'll have to authenticate your user separately
   # protect_from_forgery with: :null_session
 
+  AUTH_FREE_OPERATION_NAMES = %w[
+    signIn
+    signUp
+  ]
+
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
-    }
+    context = {}
+
+    unless AUTH_FREE_OPERATION_NAMES.include?(operation_name) || operation_name.nil?
+      api_token = request.headers[:HTTP_API_TOKEN]
+      context = { api_token: api_token }
+      auth_check(context)
+    end
+
     result = GraphAppSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
@@ -46,6 +55,19 @@ class GraphqlController < ApplicationController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    case e.class
+    when GraphQL::ExecutionError
+      render json: { errors: [{ message: 'permission denied' }], data: {} }, status: 401
+    else
+      render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    end
+  end
+
+  private def auth_check(context)
+    api_token = ApiToken.find_by(token: context[:api_token])
+    unless api_token
+      raise GraphQL::ExecutionError.new('permission denied',
+                                        extensions: { code: 'AUTHENTICATION_ERROR' })
+    end
   end
 end

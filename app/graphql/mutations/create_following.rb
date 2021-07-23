@@ -1,7 +1,7 @@
 module Mutations
   class CreateFollowing < BaseMutation
     argument :user_id, Integer, required: true
-    argument :following_user_id, String, required: true
+    argument :following_user_id, Integer, required: true
 
     field :following, ObjectTypes::FollowingType, null: false
 

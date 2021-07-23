@@ -5,6 +5,7 @@ module Types
     include GraphQL::Types::Relay::HasNodesField
 
     field :posts, resolver: Resolvers::Posts
+    field :feed_posts, resolver: Resolvers::FeedPosts
     field :followings, resolver: Resolvers::Followings
     field :current_user, resolver: Resolvers::CurrentUser
     # Add root-level fields here.

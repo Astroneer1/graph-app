@@ -8,7 +8,7 @@ module Mutations
     def resolve(id:, message:)
       post = Post.find(id)
       post.message = message
-      post.tap(&:save!)
+      post.save!
 
       { post: post }
     end

@@ -17,8 +17,8 @@ class GraphqlController < ApplicationController
 
     unless AUTH_FREE_OPERATION_NAMES.include?(operation_name) || operation_name.nil?
       api_token = request.headers[:HTTP_API_TOKEN]
-      context = { api_token: api_token }
-      auth_check(context)
+      current_user = auth_check(api_token)
+      context = { current_user: current_user }
     end
 
     result = GraphAppSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
@@ -63,11 +63,12 @@ class GraphqlController < ApplicationController
     end
   end
 
-  private def auth_check(context)
-    api_token = ApiToken.find_by(token: context[:api_token])
+  private def auth_check(api_token)
+    api_token = ApiToken.find_by(token: api_token)
     unless api_token
       raise GraphQL::ExecutionError.new('permission denied',
                                         extensions: { code: 'AUTHENTICATION_ERROR' })
     end
+    api_token
   end
 end

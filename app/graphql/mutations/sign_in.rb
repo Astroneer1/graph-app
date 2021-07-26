@@ -12,7 +12,6 @@ module Mutations
         raise GraphQL::ExecutionError.new('permission denied', extensions: { code: 'AUTHENTICATION_ERROR' })
       else
         api_token = ApiToken.new(user_id: user.id)
-        puts api_token
         api_token.save!
         { api_token: api_token }
       end
